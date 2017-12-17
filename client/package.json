@@ -1,0 +1,38 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "next.js app",
+  "repository": "https://github.com/YukiHayakawa/blogApp",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon --watch server.js --exec babel-node server.js --presets env",
+    "build": "next build",
+    "start": "NODE_ENV=production nodemon --exec babel-node server.js --presets env"
+  },
+  "dependencies": {
+    "axios": "latest",
+    "babel-cli": "latest",
+    "crypto": "latest",
+    "es6-promise": "latest",
+    "express": "latest",
+    "express-session": "latest",
+    "form-data": "latest",
+    "isomorphic-fetch": "latest",
+    "moment": "latest",
+    "next": "latest",
+    "next-redux-saga": "latest",
+    "next-redux-wrapper": "latest",
+    "nodemon": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-dropzone": "latest",
+    "react-redux": "latest",
+    "redux": "latest",
+    "redux-saga": "latest",
+    "semantic-ui-react": "latest"
+  },
+  "devDependencies": {
+    "redux-devtools-extension": "latest"
+  }
+}

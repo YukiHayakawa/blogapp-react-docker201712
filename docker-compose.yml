@@ -1,0 +1,55 @@
+version: '2'
+services:
+  server:
+    image: node:8.9-alpine
+    container_name: server
+    hostname: server
+    volumes:
+      - "./server:/src"
+    working_dir: /src
+    command: [sh, -c, yarn install && yarn start]
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+  
+  image:
+    image: node:8.9-alpine
+    container_name: image
+    hostname: image
+    volumes:
+      - "./image:/src"
+    working_dir: /src
+    command: [sh, -c, yarn install && yarn start]
+    ports:
+      - "8000:8000"
+
+  client:
+    image: node:8.9-alpine
+    container_name: client
+    hostname: client
+    volumes:
+      - "./client:/src"
+    working_dir: /src
+    command: [sh, -c, yarn install && yarn build && yarn start]
+    ports:
+      - "3030:3030"
+    depends_on:
+      - server
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    hostname: db
+    command: mysqld
+    ports:
+      - "3306:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=pass"
+      - "MYSQL_DATABASE=example"
+      - "MYSQL_USER=example_user"
+      - "MYSQL_PASSWORD=example_pass"
+    volumes:
+      - "./db/data:/var/lib/mysql"
+      - "./db/init:/docker-entrypoint-initdb.d"
+      - "./db/conf.d:/etc/mysql/conf.d/"
