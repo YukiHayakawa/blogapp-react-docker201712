@@ -22,8 +22,16 @@ app.use('/static', express.static('static'));
 /**
  * @name get/getImage
  */
-app.get('/getImage/:user', (req, res) => { 
-  const dir = `/static/${req.params.user}`
+app.get('/getImage/:user', (req, res) => {
+  const dir = `/static/${req.params.user}`;
+  console.log(dir)
+  if (!fs.existsSync(`.${dir}`)) {
+    fs.mkdirSync(`.${dir}`, (err) => {
+      if (err) {
+        res.json({"error": "not make dir"});
+      }
+    });
+  }
   fs.readdir(`.${dir}`, function (err, files) {
     if (err) throw err;
     const fileList = []

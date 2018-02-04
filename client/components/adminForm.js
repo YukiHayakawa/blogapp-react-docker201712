@@ -69,12 +69,12 @@ const BlogForm = ({ dispatch, blogFormReducer, blogReducer, pageTitle, blog }) =
         return response.json();
       })
       .then((json) => {
-        const isSelect = (() => {
+        const isSelect = json.images ? (() => {
           for (let i = 0, l = json.images.length; i < l; i++) {
             if (json.images[i].name === formEditData.thumb) return i;
           }
           return false;
-        })()
+        })() : false;
         dispatch(changeImageViewer({
           isImageloading: true,
           images: json.images,
@@ -113,8 +113,9 @@ const BlogForm = ({ dispatch, blogFormReducer, blogReducer, pageTitle, blog }) =
 
     Promise.all(files.map(file => uploadImage(file)))
     .then(images => {
+      console.log(imageViewer, images)
       dispatch(changeImageViewer({
-        images: imageViewer.images.concat(images),
+        images: imageViewer.images ? imageViewer.images.concat(images) : images,
         isUploading: false,
       }));
     }).catch(e => console.log(e));
@@ -195,7 +196,7 @@ const BlogForm = ({ dispatch, blogFormReducer, blogReducer, pageTitle, blog }) =
                       <Header as='h2'>Select Image</Header>
                       <Divider />
                       <div style={{minHeight: 400, position: 'relative', overflowY: 'auto', overflowX: 'hidden', padding: '2px'}}>
-                        {imageViewer.images.length > 0 &&
+                        {imageViewer.images && imageViewer.images.length > 0 &&
                           <Grid doubling columns={6}>
                             {imageViewer.images.map(({name}, key) => (
                             <Grid.Column style={key === imageViewer.isSelect ? { border: 'solid 4px #37bdb3', padding: 0, margin:'12px 0 0 12px' } : {border: 'solid 1px #ddd',padding: 0, margin:'12px 0 0 12px'} } key={key}>
